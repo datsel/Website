@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For You ❤️</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #ffe6f2 0%, #ffb3d9 100%);
+            overflow: hidden; /* Prevent scrolling to keep the fixed view */
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cursive {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Floating Hearts Animation */
+        .heart-bg {
+            position: absolute;
+            bottom: -100px;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatUp linear infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(0.5) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-120vh) scale(1.5) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Modal Styles */
+        #modal-overlay {
+            backdrop-filter: blur(8px);
+            transition: opacity 0.5s ease-out;
+            z-index: 50;
+        }
+
+        #close-btn {
+            transition: top 0.2s ease-out, left 0.2s ease-out;
+        }
+
+        /* Letter Card Styles */
+        #love-letter {
+            transform: scale(0.8) translateY(50px);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+            box-shadow: 0 20px 40px rgba(255, 105, 180, 0.3);
+            background-image: repeating-linear-gradient(white 0px, white 24px, #fce4ec 25px);
+            background-position: 0 40px;
+        }
+
+        #love-letter.revealed {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+
+        /* Envelope Flap Effect */
+        .card-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: #ff66b2;
+            border-radius: 12px 12px 0 0;
+        }
+
+        /* Pulsing main heart */
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        .animate-heartbeat {
+            animation: heartbeat 1.5s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="relative">
+
+    <div id="hearts-container" class="absolute inset-0 w-full h-full pointer-events-none z-0"></div>
+
+    <div id="modal-overlay" class="fixed inset-0 bg-white/30 flex items-center justify-center p-4">
+        <div id="question-box" class="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center relative border-4 border-pink-200">
+            
+            <!-- Evasive Close Button -->
+            <button id="close-btn" class="absolute top-3 right-3 w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-red-100 text-gray-500 hover:text-red-500 rounded-full transition-colors cursor-pointer select-none">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+            </button>
+
+            <h2 class="text-3xl font-bold text-pink-500 mb-6 cursive">Mahal mo pa ba ako :> ? </h2>
+            
+            <div class="flex justify-center gap-4 mt-6">
+                <button id="yes-btn" class="px-8 py-3 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-full shadow-lg shadow-pink-500/30 transform hover:scale-105 transition-all">
+                    Yes
+                </button>
+                <button id="no-btn" class="px-8 py-3 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold rounded-full shadow-md transform hover:scale-105 transition-all">
+                    No
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full max-w-2xl p-4 z-10 flex items-center justify-center pointer-events-none hidden" id="letter-wrapper">
+        <div id="love-letter" class="bg-white rounded-xl p-8 md:p-12 w-full relative border-2 border-pink-100 pointer-events-auto">
+            <div class="card-top"></div>
+            
+            <div class="flex justify-center mb-6 mt-4">
+                <svg class="w-16 h-16 text-pink-500 animate-heartbeat drop-shadow-md" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+            </div>
+
+            <div class="prose max-w-none text-center">
+                <h1 class="text-4xl md:text-5xl text-pink-600 mb-6 cursive font-bold">To My wife and partner, The lovliest woman ever</h1>
+                <p class="text-lg md:text-xl text-gray-700 leading-relaxed cursive mb-4">
+                    I know this is a corny way to aplogize but this is the one thing i am good at. I am a bio student but I cannot just discover a new bacteria or cell and name it after you, i would if i could. So in this way let me code my way into your heart. To start this letter I would like to say na I am very sorry if lately I have been giving you a hard time. I really love you and I hope I am still showing it sayo.
+                </p>
+                <p class="text-lg md:text-xl text-gray-700 leading-relaxed cursive mb-8">
+                    You are the inspirtation and my reason to keep going. I know what youll say, 'di halata' and for that i am so sorry baby. You are why I wake up everyday to go to school, you are the reason why I study because i want to impress you so much. Baby always remember that I am so so proud of you. Of everything you do and will ever do, I am your biggest fan and supporter. I admire you more than anything mahal. I miss you more than ever.
+                </p>
+                <p class="text-2xl text-pink-500 font-bold cursive mt-8">
+                    From your Bebelabs ultra pro max <br>❤️
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            
+            // --- 1. Background Floating Hearts Generator ---
+            const container = document.getElementById('hearts-container');
+            const colors = ['#ff99cc', '#ff66b2', '#ffccdd', '#ff4d4d'];
+            
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-bg');
+                
+                // SVG Heart Icon
+                heart.innerHTML = `<svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`;
+                
+                // Random properties
+                const size = Math.random() * 2 + 0.5; // Scale between 0.5 and 2.5
+                const left = Math.random() * 100; // Left position 0-100%
+                const duration = Math.random() * 5 + 5; // Animation duration 5-10s
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                heart.style.left = `${left}vw`;
+                heart.style.transform = `scale(${size})`;
+                heart.style.animationDuration = `${duration}s`;
+                heart.style.color = color;
+                
+                container.appendChild(heart);
+                
+                // Remove heart after animation completes to keep DOM clean
+                setTimeout(() => {
+                    heart.remove();
+                }, duration * 1000);
+            }
+
+            // Spawn a new heart every 400ms
+            setInterval(createHeart, 400);
+
+            // --- 2. Interactive Modal Logic ---
+            const closeBtn = document.getElementById('close-btn');
+            const yesBtn = document.getElementById('yes-btn');
+            const noBtn = document.getElementById('no-btn');
+            const modalOverlay = document.getElementById('modal-overlay');
+            const letterWrapper = document.getElementById('letter-wrapper');
+            const loveLetter = document.getElementById('love-letter');
+            
+            // Function to move the close button away
+            const evadeCursor = () => {
+                // Change position to fixed so it can move anywhere on screen
+                closeBtn.style.position = 'fixed';
+                
+                // Calculate boundaries (viewport width/height minus button dimensions)
+                const maxX = window.innerWidth - closeBtn.offsetWidth - 20;
+                const maxY = window.innerHeight - closeBtn.offsetHeight - 20;
+                
+                // Generate random coordinates
+                const randomX = Math.max(10, Math.floor(Math.random() * maxX));
+                const randomY = Math.max(10, Math.floor(Math.random() * maxY));
+                
+                closeBtn.style.left = `${randomX}px`;
+                closeBtn.style.top = `${randomY}px`;
+            };
+
+            // Trigger evasion on mouse hover, mouse enter, and touch start (for mobile)
+            closeBtn.addEventListener('mouseover', evadeCursor);
+            closeBtn.addEventListener('mouseenter', evadeCursor);
+            closeBtn.addEventListener('touchstart', (e) => {
+                e.preventDefault(); // Prevent click from registering on touch
+                evadeCursor();
+            });
+
+            // Logic for the 'No' button
+            noBtn.addEventListener('click', function() {
+                // Change text and styles to look like the 'Yes' button
+                this.textContent = 'Yes';
+                this.classList.remove('bg-gray-200', 'text-gray-700', 'hover:bg-gray-300');
+                this.classList.add('bg-pink-500', 'text-white', 'hover:bg-pink-600', 'shadow-lg', 'shadow-pink-500/30');
+                
+                // Now it acts exactly like the Yes button
+                this.addEventListener('click', revealLetter);
+            });
+
+            // Logic to reveal the letter
+            function revealLetter() {
+                // Fade out modal overlay
+                modalOverlay.style.opacity = '0';
+                
+                setTimeout(() => {
+                    modalOverlay.style.display = 'none';
+                    
+                    // Show and animate the letter
+                    letterWrapper.classList.remove('hidden');
+                    // Small delay to ensure the transition triggers
+                    setTimeout(() => {
+                        loveLetter.classList.add('revealed');
+                    }, 50);
+                }, 500); // Matches the CSS transition duration
+            }
+
+            yesBtn.addEventListener('click', revealLetter);
+        });
+    </script>
+</body>
+</html>
